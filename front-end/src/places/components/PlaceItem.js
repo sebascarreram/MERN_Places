@@ -9,12 +9,24 @@ import "./PlaceItem.css";
 
 const PlaceItem = props => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
   const closeMapHandler = () => setShowMap(false);
 
+  const showWarningHandler = () => setShowConfirmModal(true);
+  const cancelDeleteHandler = () => setShowConfirmModal(false);
+
+  const confirmDeleteHandler = () => {
+    console.log("DELETING...");
+    setShowConfirmModal(false);
+  };
+
   return (
     <React.Fragment>
+      {/* ************* */}
+      {/* Modal for MAP */}
+      {/* ************* */}
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -26,6 +38,31 @@ const PlaceItem = props => {
         <div className="map-container">
           <Map center={props.coordinates} zoom={16} />
         </div>
+      </Modal>
+
+      {/* ************* */}
+      {/* Modal for ADVERTENCE YES OR NOT DELETE */}
+      {/* ************* */}
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>
+          Do you want to proceed and delete this place? Please note that it
+          can't be undone thereafter.
+        </p>
       </Modal>
 
       <li className="place-item">
@@ -43,7 +80,9 @@ const PlaceItem = props => {
               VIEW ON MAP
             </Button>
             <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            <Button onClick={showWarningHandler} danger>
+              DELETE
+            </Button>
           </div>
         </Card>
       </li>
