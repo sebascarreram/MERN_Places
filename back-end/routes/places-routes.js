@@ -18,6 +18,9 @@ const DUMMY_PLACES = [
   }
 ];
 
+////////////////////////////////////////////////////////////////
+/////////////// Get place by ID
+////////////////////////////////////////////////////////////////
 router.get("/:pid", (req, res, next) => {
   // http://localhost:5000/api/places/test
   // req.params => { pid: 'test' } .... Check it console.log(req.params)
@@ -25,15 +28,30 @@ router.get("/:pid", (req, res, next) => {
 
   const place = DUMMY_PLACES.find(place => place.id === placeId);
 
+  if (!place) {
+    const error = new Error("Could not find a place for provided id");
+    error.code = 404;
+    throw error;
+  }
+
   res.json({ place }); // { place } => to convert to { place: place }
 });
 
+////////////////////////////////////////////////////////////////
+/////////////// Get place by creator ID
+////////////////////////////////////////////////////////////////
 router.get("/user/:uid", (req, res, next) => {
   // http://localhost:5000/api/places/user/u1
   // req.params => { uid: 'u1' } .... Check it console.log(req.params)
   const userId = req.params.uid;
 
   const user = DUMMY_PLACES.find(user => user.creator === userId);
+
+  if (!user) {
+    const error = new Error("Could not find a place for provided USER id");
+    error.code = 404;
+    return next(error);
+  }
 
   res.json({ user }); // { user } => to convert to { user: user }
 });
