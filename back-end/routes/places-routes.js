@@ -18,6 +18,6 @@ router.post("/", PlacesControllers.createPlace);
 router.patch("/:pid", PlacesControllers.updatePlaceById);
 //////////////////////////////
 /////////////// Delete place
-router.patch("/:pid", PlacesControllers.deletePlace);
+router.delete("/:pid", PlacesControllers.deletePlace);
 
 module.exports = router;
