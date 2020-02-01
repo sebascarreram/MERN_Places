@@ -1,3 +1,5 @@
+// ...rest of the initial code omitted for simplicity.
+const { validationResult } = require("express-validator");
 const uuid = require("uuid/v4");
 const HttpError = require("../models/http-error");
 
@@ -66,6 +68,13 @@ const getPlacesByUserId = (req, res, next) => {
 ////////////////////////////////////////////////////////////////
 
 const createPlace = (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    console.log(errors);
+    throw new HttpError("Invalid inputs passed, please check your data", 422);
+  }
+
   const { title, description, coordinates, address, creator } = req.body;
   // const title = req.body.title
   const createdPlace = {
