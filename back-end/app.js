@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const placeRoutes = require("./routes/places-routes");
+const usersRoutes = require("./routes/users-routes");
 const HttpError = require("./models/http-error");
 
 const app = express();
@@ -10,6 +11,9 @@ app.use(bodyParser.json()); // for parsing application/json
 
 ///// => http://localhost:5000/api/places
 app.use("/api/places", placeRoutes);
+
+///// => http://localhost:5000/api/users
+app.use("/api/users", usersRoutes);
 
 ////////////////////////////////////////////////////////////////
 /////////////// Errors for Unsupported Routes
