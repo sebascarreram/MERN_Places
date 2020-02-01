@@ -28,4 +28,14 @@ router.get("/:pid", (req, res, next) => {
   res.json({ place }); // { place } => to convert to { place: place }
 });
 
+router.get("/user/:uid", (req, res, next) => {
+  // http://localhost:5000/api/places/user/u1
+  // req.params => { uid: 'u1' } .... Check it console.log(req.params)
+  const userId = req.params.uid;
+
+  const user = DUMMY_PLACES.find(user => user.creator === userId);
+
+  res.json({ user }); // { user } => to convert to { user: user }
+});
+
 module.exports = router;
