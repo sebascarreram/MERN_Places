@@ -10,5 +10,8 @@ router.get("/:pid", PlacesControllers.getPlaceById);
 //////////////////////////////
 /////////////// Get place by creator ID
 router.get("/user/:uid", PlacesControllers.getPlaceByUserId);
+//////////////////////////////
+/////////////// Create place
+router.post("/", PlacesControllers.createPlace);
 
 module.exports = router;
