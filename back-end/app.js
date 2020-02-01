@@ -11,6 +11,9 @@ app.use(bodyParser.json()); // for parsing application/json
 ///// => http://localhost:5000/api/places
 app.use("/api/places", placeRoutes);
 
+////////////////////////////////////////////////////////////////
+/////////////// Errors for Unsupported Routes
+////////////////////////////////////////////////////////////////
 app.use((req, res, next) => {
   const error = new Error("Could not find this route", 404);
   throw error;
