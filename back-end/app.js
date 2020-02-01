@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const placeRoutes = require("./routes/places-routes");
+const HttpError = require("./models/http-error");
 
 const app = express();
 
@@ -9,6 +10,11 @@ app.use(bodyParser.json()); // for parsing application/json
 
 ///// => http://localhost:5000/api/places
 app.use("/api/places", placeRoutes);
+
+app.use((req, res, next) => {
+  const error = new Error("Could not find this route", 404);
+  throw error;
+});
 
 ////////////////////////////////////////////////////////////////
 /////////////// ERROR
