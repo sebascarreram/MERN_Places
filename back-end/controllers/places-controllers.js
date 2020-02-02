@@ -60,12 +60,21 @@ const getPlaceById = async (req, res, next) => {
 /////////////// Get place by creator ID
 ////////////////////////////////////////////////////////////////
 
-const getPlacesByUserId = (req, res, next) => {
+const getPlacesByUserId = async (req, res, next) => {
   // http://localhost:5000/api/places/user/u1
   // req.params => { uid: 'u1' } .... Check it console.log(req.params)
   const userId = req.params.uid;
 
-  const places = DUMMY_PLACES.filter(user => user.creator === userId);
+  let places;
+  try {
+    places = await Place.find({ creator: userId });
+  } catch (err) {
+    const error = new HttpError(
+      "Fetching places failes, please try again later",
+      500
+    );
+    return next(error);
+  }
 
   if (!places || places.length === 0) {
     return next(
@@ -73,7 +82,7 @@ const getPlacesByUserId = (req, res, next) => {
     );
   }
 
-  res.json({ places }); // { places } => to convert to { places: places }
+  res.json({ places: places.map(place => place.toObject({ getters: true })) }); // { places } => to convert to { places: places }
 };
 
 ////////////////////////////////////////////////////////////////
