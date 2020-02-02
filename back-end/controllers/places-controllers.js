@@ -7,22 +7,6 @@ const getCoordsForAddress = require("../utils/location");
 const Place = require("../models/place");
 const User = require("../models/user");
 
-let DUMMY_PLACES = [
-  {
-    id: "p1",
-    title: "Empire State Building",
-    description: "One of the most famous sky scrapers in the world!",
-    imageURL:
-      "https://images.unsplash.com/photo-1502104034360-73176bb1e92e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80",
-    address: "20 W 34th St, New York, NY 10001",
-    location: {
-      lat: 40.7482476,
-      lng: -73.9873916
-    },
-    creator: "u1"
-  }
-];
-
 ////////////////////////////////////////////////////////////////
 /////////////// Get place by ID
 ////////////////////////////////////////////////////////////////
@@ -52,12 +36,6 @@ const getPlaceById = async (req, res, next) => {
   res.json({ place: place.toObject({ getters: true }) });
 };
 
-// function getPlaceById() { ... }
-// const getPlaceById = function() { ... }
-////////////////////////////////
-////////////////////////////////
-////////////////////////////////
-
 ////////////////////////////////////////////////////////////////
 /////////////// Get place by creator ID
 ////////////////////////////////////////////////////////////////
@@ -67,7 +45,6 @@ const getPlacesByUserId = async (req, res, next) => {
   // req.params => { uid: 'u1' } .... Check it console.log(req.params)
   const userId = req.params.uid;
 
-  // let places;
   let userWithPlaces;
   try {
     userWithPlaces = await User.findById(userId).populate("places");
@@ -79,6 +56,7 @@ const getPlacesByUserId = async (req, res, next) => {
     return next(error);
   }
 
+  // if (!place || place.length === 0) {...}
   if (!userWithPlaces || userWithPlaces.places.length === 0) {
     return next(
       new HttpError("Could not find places for provided USER id", 404)
@@ -106,14 +84,6 @@ const createPlace = async (req, res, next) => {
   }
 
   const { title, description, address, image, location, creator } = req.body;
-  // const title = req.body.title
-  let coordinates;
-
-  // try {
-  //   coordinates = await getCoordsForAddress(address);
-  // } catch (error) {
-  //   return next(error);
-  // }
 
   const createdPlace = new Place({
     title,
@@ -137,7 +107,7 @@ const createPlace = async (req, res, next) => {
     return next(error);
   }
 
-  console.log(user);
+  // console.log(user);
 
   try {
     ////////

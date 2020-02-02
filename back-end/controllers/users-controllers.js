@@ -4,15 +4,6 @@ const uuid = require("uuid/v4");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 
-const DUMMY_USERS = [
-  {
-    id: "u1",
-    name: "Mercedez Ruiz",
-    email: "example@example.com",
-    password: "example12344"
-  }
-];
-
 ////////////////////////////////////////////////////////////////
 /////////////// Get list of all users
 ////////////////////////////////////////////////////////////////
