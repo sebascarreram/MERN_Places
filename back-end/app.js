@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const placeRoutes = require("./routes/places-routes");
 const usersRoutes = require("./routes/users-routes");
@@ -35,6 +36,19 @@ app.use((error, req, res, next) => {
 });
 
 ////////////////////////////////////////////////////////////////
-/////////////// TO LISTEN TO => LOCALHOST
+/////////////// MONGOOSE AND TO LISTEN TO => LOCALHOST
 ////////////////////////////////////////////////////////////////
-app.listen(5000);
+const password = "Jp2KUmyewjdK2ZZF";
+const nameDatabase = "places";
+mongoose
+  .connect(
+    `mongodb+srv://Sebastian:${password}@cluster0-prdrv.mongodb.net/${nameDatabase}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    app.listen(5000);
+    console.log("Connected to DB successfully 🎉");
+  })
+  .catch(error => {
+    console.log(error);
+  });
