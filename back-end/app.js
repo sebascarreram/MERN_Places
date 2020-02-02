@@ -39,7 +39,7 @@ app.use((error, req, res, next) => {
 /////////////// MONGOOSE AND TO LISTEN TO => LOCALHOST
 ////////////////////////////////////////////////////////////////
 const password = "Jp2KUmyewjdK2ZZF";
-const nameDatabase = "places";
+const nameDatabase = "placesDB";
 mongoose
   .connect(
     `mongodb+srv://Sebastian:${password}@cluster0-prdrv.mongodb.net/${nameDatabase}?retryWrites=true&w=majority`,
