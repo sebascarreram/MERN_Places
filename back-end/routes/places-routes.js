@@ -19,6 +19,7 @@ router.post(
     check("title")
       .not()
       .isEmpty(),
+    // password must be at least 5 chars long
     check("description").isLength({ min: 5 }),
     check("address")
       .not()
@@ -28,7 +29,17 @@ router.post(
 );
 //////////////////////////////
 /////////////// Update place
-router.patch("/:pid", PlacesControllers.updatePlaceById);
+router.patch(
+  "/:pid",
+  [
+    check("title")
+      .not()
+      .isEmpty(),
+    // password must be at least 5 chars long
+    check("description").isLength({ min: 5 })
+  ],
+  PlacesControllers.updatePlaceById
+);
 //////////////////////////////
 /////////////// Delete place
 router.delete("/:pid", PlacesControllers.deletePlace);
