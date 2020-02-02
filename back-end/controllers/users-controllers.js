@@ -42,7 +42,7 @@ const signup = async (req, res, next) => {
     );
   }
 
-  const { name, email, password, places } = req.body;
+  const { name, email, password } = req.body;
 
   let existingUser;
   try {
@@ -68,7 +68,7 @@ const signup = async (req, res, next) => {
     email,
     password,
     image: "urlImage",
-    places
+    places: []
   });
 
   try {
