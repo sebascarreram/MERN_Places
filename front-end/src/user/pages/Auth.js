@@ -56,8 +56,12 @@ const Auth = props => {
         });
 
         const responseData = await response.json();
-        console.log(responseData);
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
         ////
+        console.log(responseData);
         setIsLoading(false);
         auth.login();
         ////
@@ -93,49 +97,56 @@ const Auth = props => {
     setIsLoginMode(prevMode => !prevMode);
   };
 
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
-    <Card className="authentication">
-      {isLoading && <LoadingSpinner asOverlay />}
-      <h2>Login required</h2>
-      <hr />
-      <form onSubmit={authSubmitHandler}>
-        {!isLoginMode && (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={errorHandler} />
+      <Card className="authentication">
+        {isLoading && <LoadingSpinner asOverlay />}
+        <h2>Login required</h2>
+        <hr />
+        <form onSubmit={authSubmitHandler}>
+          {!isLoginMode && (
+            <Input
+              element="input"
+              id="name"
+              type="text"
+              label="Your name"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter a valid your name"
+              onInput={inputHandler}
+            />
+          )}
           <Input
             element="input"
-            id="name"
-            type="text"
-            label="Your name"
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a valid your name"
+            id="email"
+            type="email"
+            label="E-Email"
+            validators={[VALIDATOR_EMAIL()]}
+            errorText="Please enter a valid E-Email"
             onInput={inputHandler}
           />
-        )}
-        <Input
-          element="input"
-          id="email"
-          type="email"
-          label="E-Email"
-          validators={[VALIDATOR_EMAIL()]}
-          errorText="Please enter a valid E-Email"
-          onInput={inputHandler}
-        />
-        <Input
-          element="input"
-          id="password"
-          type="password"
-          label="Password"
-          validators={[VALIDATOR_MINLENGTH(5)]}
-          errorText="Please enter a valid password, at least 5 characters"
-          onInput={inputHandler}
-        />
-        <Button type="submit" disabled={!formState.isValid}>
-          {isLoginMode ? "LOGIN" : "SIGNUP"}
+          <Input
+            element="input"
+            id="password"
+            type="password"
+            label="Password"
+            validators={[VALIDATOR_MINLENGTH(5)]}
+            errorText="Please enter a valid password, at least 5 characters"
+            onInput={inputHandler}
+          />
+          <Button type="submit" disabled={!formState.isValid}>
+            {isLoginMode ? "LOGIN" : "SIGNUP"}
+          </Button>
+        </form>
+        <Button inverse onClick={switchModelHandler}>
+          {isLoginMode ? "SWITCH TO SIGNUP" : "SWITCH TO LOGIN"}
         </Button>
-      </form>
-      <Button inverse onClick={switchModelHandler}>
-        {isLoginMode ? "SWITCH TO SIGNUP" : "SWITCH TO LOGIN"}
-      </Button>
-    </Card>
+      </Card>
+    </React.Fragment>
   );
 };
 
