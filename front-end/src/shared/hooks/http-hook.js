@@ -15,7 +15,7 @@ export const useHttpClient = () => {
 
       //////// TRY
       try {
-        const response = fetch(url, {
+        const response = await fetch(url, {
           method,
           body,
           headers,
@@ -23,17 +23,24 @@ export const useHttpClient = () => {
         });
 
         const responseData = await response.json();
+
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          reqCtrol => reqCtrol !== httpAbortCtrl
+        );
+
         //////// ERROR
         if (!response.ok) {
           throw new Error(responseData.message);
         }
 
+        setIsLoading(false);
         return responseData;
         //////// CATCH
       } catch (err) {
         setError(err.message);
+        setIsLoading(false);
+        throw err;
       }
-      setIsLoading(false);
     },
     []
   );
