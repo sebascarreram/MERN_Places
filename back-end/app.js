@@ -10,6 +10,20 @@ const app = express();
 
 app.use(bodyParser.json()); // for parsing application/json
 
+// CORS Headers => Required for cross-origin/ cross-server communication
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
+  next();
+});
+
 ///// => http://localhost:5000/api/places
 app.use("/api/places", placeRoutes);
 
@@ -39,7 +53,7 @@ app.use((error, req, res, next) => {
 /////////////// MONGOOSE AND TO LISTEN TO => LOCALHOST
 ////////////////////////////////////////////////////////////////
 const password = "Jp2KUmyewjdK2ZZF";
-const nameDatabase = "placesDB";
+const nameDatabase = "mern";
 mongoose
   .connect(
     `mongodb+srv://Sebastian:${password}@cluster0-prdrv.mongodb.net/${nameDatabase}?retryWrites=true&w=majority`,
