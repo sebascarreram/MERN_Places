@@ -15,7 +15,10 @@ const UserItem = props => {
           {/* Content image */}
           <div className="user-item__image">
             {/* <img src={props.image} alt={props.name} /> */}
-            <Avatar alt={props.name} image={props.image} />
+            <Avatar
+              alt={`http://localhost:5000/${props.image}`}
+              image={props.image}
+            />
           </div>
           {/* Content info */}
           <div className="user-item__info">
