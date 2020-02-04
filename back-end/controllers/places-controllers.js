@@ -1,9 +1,8 @@
 // ...rest of the initial code omitted for simplicity.
 const { validationResult } = require("express-validator");
 const mongoose = require("mongoose");
-const uuid = require("uuid/v4");
 const HttpError = require("../models/http-error");
-const getCoordsForAddress = require("../utils/location");
+// const getCoordsForAddress = require("../utils/location");
 const Place = require("../models/place");
 const User = require("../models/user");
 
@@ -88,9 +87,12 @@ const createPlace = async (req, res, next) => {
   const createdPlace = new Place({
     title,
     description,
-    image,
-    location,
     address,
+    location: {
+      lat: 37.5487452,
+      lng: -122.0614357
+    },
+    image: "https://source.unsplash.com/random",
     creator
   });
 
