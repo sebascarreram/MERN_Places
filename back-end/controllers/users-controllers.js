@@ -59,7 +59,7 @@ const signup = async (req, res, next) => {
     name,
     email,
     password,
-    image: "https://i.pravatar.cc/300",
+    image: req.file.path,
     places: []
   });
 
