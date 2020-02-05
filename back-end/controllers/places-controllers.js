@@ -173,6 +173,11 @@ const updatePlaceById = async (req, res, next) => {
     return next(error);
   }
 
+  if (place.creator.toString() !== req.userData.userId) {
+    const error = new HttpError("You are not allowed to edit this place.", 401);
+    return next(error);
+  }
+
   res.status(200).json({
     message: "Success updated",
     place: place.toObject({ getters: true })
