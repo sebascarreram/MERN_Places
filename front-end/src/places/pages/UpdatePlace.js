@@ -68,7 +68,7 @@ const UpdatePlace = () => {
     fetchPlace();
   }, [sendRequest, placeId, setFormData]);
 
-  const placeUpdateHandler = async event => {
+  const placeUpdateSubmitHandler = async event => {
     event.preventDefault();
     try {
       await sendRequest(
@@ -89,9 +89,7 @@ const UpdatePlace = () => {
   if (isLoading) {
     return (
       <div className="center">
-        <Card>
-          <LoadingSpinner />
-        </Card>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -111,7 +109,7 @@ const UpdatePlace = () => {
       <ErrorModal error={error} onClear={clearError} />
 
       {!isLoading && loadedPlace && (
-        <form className="place-form" onSubmit={placeUpdateHandler}>
+        <form className="place-form" onSubmit={placeUpdateSubmitHandler}>
           <Input
             id="title"
             element="input"

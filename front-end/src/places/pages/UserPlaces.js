@@ -9,8 +9,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import PlaceList from "../components/PlaceList";
 
 const UserPlaces = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedPlaces, setLoadedPlaces] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const userId = useParams().userId;
 
@@ -18,7 +18,7 @@ const UserPlaces = () => {
     const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/places/user/${userId}/`
+          `http://localhost:5000/api/places/user/${userId}`
         );
         setLoadedPlaces(responseData.places);
       } catch (err) {}

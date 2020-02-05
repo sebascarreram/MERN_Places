@@ -1,17 +1,17 @@
 const express = require("express");
 const { check } = require("express-validator");
 
-const PlacesControllers = require("../controllers/places-controllers");
+const placesControllers = require("../controllers/places-controllers");
 const fileUpload = require("../middleware/file-upload");
 
 const router = express.Router();
 
 //////////////////////////////
 /////////////// Get place by ID
-router.get("/:pid", PlacesControllers.getPlaceById);
+router.get("/:pid", placesControllers.getPlaceById);
 //////////////////////////////
 /////////////// Get place by creator ID
-router.get("/user/:uid", PlacesControllers.getPlacesByUserId);
+router.get("/user/:uid", placesControllers.getPlacesByUserId);
 //////////////////////////////
 /////////////// Create place
 router.post(
@@ -27,7 +27,7 @@ router.post(
       .not()
       .isEmpty()
   ],
-  PlacesControllers.createPlace
+  placesControllers.createPlace
 );
 //////////////////////////////
 /////////////// Update place
@@ -40,10 +40,10 @@ router.patch(
     // password must be at least 5 chars long
     check("description").isLength({ min: 5 })
   ],
-  PlacesControllers.updatePlaceById
+  placesControllers.updatePlaceById
 );
 //////////////////////////////
 /////////////// Delete place
-router.delete("/:pid", PlacesControllers.deletePlace);
+router.delete("/:pid", placesControllers.deletePlace);
 
 module.exports = router;
