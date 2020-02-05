@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 ////////////////////////////////////////////////////////////////
 /////////////// Get list of all users
@@ -82,9 +83,25 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
-  res.status(201).json({
-    message: "Success",
-    user: createdUser.toObject({ getters: true })
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: createdUser.id, email: createdUser.email },
+      "supersecreto_dont_share",
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      "Signup up failed, please try again later.",
+      500
+    );
+    return next(error);
+  }
+
+  res.json({
+    userId: createdUser.id,
+    email: createdUser.email,
+    token: token
   });
 };
 
@@ -126,15 +143,34 @@ const login = async (req, res, next) => {
   }
   if (!isValidPassword) {
     const error = new HttpError(
-      "Invalid credentials, could not log you in.",
+      "Signup up failed, please try again later.",
+      401
+    );
+    return next(error);
+  }
+
+  ////////////////////////////////////////////////////////////////
+  ///////////////////////////////////// TOKEN
+  ////////////////////////////////////////////////////////////////
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      "supersecreto_dont_share",
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    const error = new HttpError(
+      "Logging in failed, please try again later.",
       401
     );
     return next(error);
   }
 
   res.json({
-    message: "Logged in!",
-    user: existingUser.toObject({ getters: true })
+    userId: existingUser.id,
+    email: existingUser.email,
+    token: token
   });
 };
 
