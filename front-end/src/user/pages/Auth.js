@@ -56,7 +56,7 @@ const Auth = () => {
             isValid: false
           },
           image: {
-            value: "",
+            value: null,
             isValid: false
           }
         },
@@ -91,7 +91,6 @@ const Auth = () => {
         formData.append("name", formState.inputs.name.value);
         formData.append("password", formState.inputs.password.value);
         formData.append("image", formState.inputs.image.value);
-
         const responseData = await sendRequest(
           "http://localhost:5000/api/users/signup",
           "POST",
@@ -122,7 +121,12 @@ const Auth = () => {
             />
           )}
           {!isLoginMode && (
-            <ImageUpload id="image" center onInput={inputHandler} />
+            <ImageUpload
+              id="image"
+              center
+              onInput={inputHandler}
+              errorText="Please provide an image"
+            />
           )}
           <Input
             element="input"

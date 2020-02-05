@@ -92,7 +92,7 @@ const createPlace = async (req, res, next) => {
       lat: 37.5487452,
       lng: -122.0614357
     },
-    image: "https://source.unsplash.com/random",
+    image: req.file.path,
     creator
   });
 
