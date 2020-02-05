@@ -83,7 +83,7 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description, address, image, location, creator } = req.body;
+  const { title, description, address, creator } = req.body;
 
   const createdPlace = new Place({
     title,
