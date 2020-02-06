@@ -33,9 +33,9 @@ const MainNavigation = props => {
           className="main-navigation__menu-btn"
           onClick={openDrawerHandler}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </button>
         <h1 className="main-navigation__title">
           <Link to="/">Your place</Link>
